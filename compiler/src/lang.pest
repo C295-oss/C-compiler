@@ -1,0 +1,36 @@
+WHITESPACE = _{ " " | "\t" | "\n" | "\r" }
+
+program = _{ SOI ~ WHITESPACE* ~ stmt* ~ EOI }
+stmt = _{ WHITESPACE* ~ (declaration | expr) ~ WHITESPACE* ~ ";" }
+
+expr = {
+    assgmtExpr
+  | binaryExpr
+  | unaryExpr
+  // | functionCall
+  | terms
+}
+
+assgmtExpr = { ident ~ WHITESPACE* ~ "=" ~ WHITESPACE* ~ expr }
+binaryExpr = { (unaryExpr | terms) ~ WHITESPACE* ~ operator ~ WHITESPACE* ~ expr }
+unaryExpr = { unaryOp ~ WHITESPACE* ~ expr }
+// functionCall = { ident ~ WHITESPACE* ~ "(" ~ WHITESPACE*? ~ (expr ~ (WHITESPACE*? ~ "," ~ WHITESPACE*? ~ expr)*)? ~ WHITESPACE*? ~ ")" }
+
+terms = { term+ }
+term = _{ decimal | integer | ident | "(" ~ WHITESPACE*? ~ expr ~ WHITESPACE*? ~ ")" }
+
+operator = {
+    "+" | "-" | "*" | "/" | "%" | "==" | "!=" | "<" | ">" | "<=" | ">=" | "&&" | "||"
+}
+
+unaryOp = {
+    "-" | "!" | "++" | "--"
+}
+
+declaration = { typeSpec ~ WHITESPACE+ ~ ident ~ (WHITESPACE* ~ "=" ~ WHITESPACE* ~ expr)? }
+typeSpec = { "int" | "float" | "double" | "char" }
+
+integer = @{ "-"? ~ ASCII_DIGIT+ }
+decimal = @{ "-"? ~ ASCII_DIGIT+ ~ "." ~ ASCII_DIGIT* }
+ident = @{ ASCII_ALPHA ~ (ASCII_ALPHANUMERIC | "_")* }
+string = @{ "\"" ~ ( "\\\"" | (!"\"" ~ ANY) )* ~ "\"" }

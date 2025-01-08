@@ -1,0 +1,1 @@
+C:\Users\charl\OneDrive\Desktop\sysProg\cCompiler\C-compiler\compiler\target\debug\compiler.exe: C:\Users\charl\OneDrive\Desktop\sysProg\cCompiler\C-compiler\compiler\src\lang.pest C:\Users\charl\OneDrive\Desktop\sysProg\cCompiler\C-compiler\compiler\src\main.rs
